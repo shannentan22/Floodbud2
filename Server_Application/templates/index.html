@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FloodBud</title>
+    <!-- Bootstrap link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="global.css">
+    <script>
+        function updateLastRefreshedTime() {
+            var now = new Date();
+            var formattedTime = now.toLocaleString();
+            document.getElementById("lastRefreshedTime").textContent = formattedTime;
+        }
+    </script>
+</head>
+<body onload="updateLastRefreshedTime()">
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom box-shadow" style="background-color: #98BDDF;">
+            <h1 class="display-4" style="color: white; font-weight: 600;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="currentColor" class="bi bi-water" viewBox="0 2 16 16">
+                    <path d="M.036 3.314a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0L.314 3.964a.5.5 0 0 1-.278-.65zm0 3a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0L.314 6.964a.5.5 0 0 1-.278-.65zm0 3a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0L.314 9.964a.5.5 0 0 1-.278-.65zm0 3a.5.5 0 0 1 .65-.278l1.757.703a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.014-.406a2.5 2.5 0 0 1 1.857 0l1.015.406a1.5 1.5 0 0 0 1.114 0l1.757-.703a.5.5 0 1 1 .372.928l-1.758.703a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.014-.406a1.5 1.5 0 0 0-1.114 0l-1.015.406a2.5 2.5 0 0 1-1.857 0l-1.757-.703a.5.5 0 0 1-.278-.65z"/>
+                </svg>
+                FloodBud
+            </h1>
+        </div>
+        <div class="container-lg px-3 py-3 pt-md-5 pb-md-4 mx-auto">
+            <p>Last refreshed: <span id="lastRefreshedTime"></span></p>
+            <p class="lead">A smart flood monitoring system that detects flood levels in real time</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="row">
+            {% for device in devices %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>{{ device.Location }}</h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Water Level</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in range(device.Timestamps|length) %}
+                                    {% if device.WaterLevels[i] == "Low" %}
+                                        <tr style="background-color: #baffc9">
+                                            <td>{{ device.Timestamps[i].strftime("%B %d, %Y %I:%M:%S %p") }}</td>
+                                            <td>{{ device.WaterLevels[i] }}</td>
+                                        </tr>
+                                    {% elif device.WaterLevels[i] == "Moderate" %}
+                                        <tr style="background-color: #ffffba">
+                                            <td>{{ device.Timestamps[i].strftime("%B %d, %Y %I:%M:%S %p") }}</td>
+                                            <td>{{ device.WaterLevels[i] }}</td>
+                                        </tr>
+                                    {% elif device.WaterLevels[i] == "High" %}
+                                        <tr style="background-color: #ffdfba">
+                                            <td>{{ device.Timestamps[i].strftime("%B %d, %Y %I:%M:%S %p") }}</td>
+                                            <td>{{ device.WaterLevels[i] }}</td>
+                                        </tr>
+                                    {% elif device.WaterLevels[i] == "Very High" %}
+                                        <tr style="background-color: #ffb3ba">
+                                            <td>{{ device.Timestamps[i].strftime("%B %d, %Y %I:%M:%S %p") }}</td>
+                                            <td>{{ device.WaterLevels[i] }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td>{{ device.Timestamps[i].strftime("%B %d, %Y %I:%M:%S %p") }}</td>
+                                            <td>{{ device.WaterLevels[i] }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div> 
+                </div>
+            </div>
+    {% endfor %}
+        </div>
+    </div>
+
+    <!-- Bootstrap link -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
