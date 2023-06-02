@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect
-# import serial
+import serial
 import os
 import pytz
 from flask_sqlalchemy import SQLAlchemy
